@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>与人人连接</title>
+<script type="text/javascript" src="http://s.xnimg.cn/a33751/jspro/base.js"></script>
+<script type="text/javascript">XN.config.jumpOut=false;</script>
+<link
+href="http://s.xnimg.cn/a26968/csspro/apps/connect/login.css"
+rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function checkForm() {
+var errorMessage = document.getElementById("errorMessage"), 
+errMsg,
+username = document.getElementById("email"), 
+password = document.getElementById("password"), 
+icode = document.getElementById("icode");
+if (username.value == "") {
+errMsg = '您还没有填写帐号';
+username.focus();
+} else if(password.value == ""){
+errMsg = '您还没有填写密码';
+password.focus();
+} else if($("hascode").style.display != "none" && icode.value == ""){
+errMsg = '您还没有填写验证码';
+icode.focus();
+}
+if (errMsg) {
+errorMessage.style.display = 'block';
+errorMessage.innerHTML = errMsg;
+return false;
+}
+document.forms[0].submit();
+//return true;
+}
+function resizeWindow(){
+}
+function showCaptcha() {
+var v = $("email").value;
+if (v != null && v != "" && v != "注册邮箱") {
+// &&  v != showCaptcha.email
+//showCaptcha.email = v;
+$("username").value=v;
+new XN.net.xmlhttp({
+url: "http://graph.renren.com/icode/check",
+data: XN.form.serialize("loginForm"),
+method: "post",
+onSuccess: function(r) {
+if (r.responseText == 0) {
+// && ""==""
+$("isNeedIcode").value= "";
+$("hascode").style.display = "none";
+$("codeimg").style.display = "none";
+} else {
+$("isNeedIcode").value="true";
+$("hascode").style.display = '';
+$("codeimg").style.display = '';
+}
+},
+onError: function() {
+XN.DO.showError("网络通信失败，请稍后再试！");
+}
+});
+}
+}
+function refreshCode() {
+document.getElementById("verifyPic").src = document.getElementById("verifyPic").src.split("&")[0] + "&rk=600&rnd=" + Math.random();
+}
+XN.dom.ready(function() {
+var em = $("email");
+var tip = "注册邮箱";
+if (em.value == "" || em.value == tip) {
+em.focus(); 
+em.select();
+} else {
+$("password").focus();
+}
+XN.event.addEvent("email", "click", function() {
+if ($("email").value == tip) {
+$("email").value = "";
+}
+});
+XN.event.addEvent(document, 'keypress', function(e){
+if(e.keyCode == 13) {
+checkForm()
+}
+});
+XN.event.addEvent("email", "blur", showCaptcha);
+showCaptcha();
+if(window.opener) resizeWindow();
+});
+</script>
+</head>
+<body class="page">
+<div class="container">
+<div class="header clearfix">
+<a class="logo" href="http://www.renren.com/" target="_blank"><img src="http://a.xnimg.cn/imgpro/logo/logo-for-activity.png" alt="" /></a>
+<h2>与人人连接</h2>
+<a class="close" href="http://graph.renren.com/oauth/login_success.html#error=login_denied&amp;error_description=The+end-user+denied+logon.&amp;state=">关闭</a>
+</div><div class="content">
+<div stype="" style="position: relative;">
+<p style="display:hidden;color:red;top:-30px;width:100%;position:absolute;" class="banner error_message" id="errorMessage"></p>
+</div>
+<p class="banner">用人人帐号直接登录 <a href="http://www.dbank.com/netdisk/homepage.html?v=2.4.8b" target="_blank">人人网桌面客户端</a> ，精彩内容与好友分享。</p>
+<div class="login">
+<form id="loginForm" action="http://graph.renren.com/login" method="post">
+<input type="hidden" name="redirect_uri" value="http://graph.renren.com/oauth/authorize?client_id=004911f885614b67a940c44567023ab9&amp;redirect_uri=http%3A%2F%2Fgraph.renren.com%2Foauth%2Flogin_success.html&amp;response_type=token&amp;display=iframe&amp;scope=&amp;state=&amp;pp=1&amp;origin=00000" /> 
+<input type="hidden" name="origin" value="80004" />
+<input type="hidden" name="appId" value="185779" />
+<input type="hidden" name="display" value="iframe" />
+<input type="hidden" name="porigin" value="80204" /><div class="item"><label for="account">帐号：</label>
+<input id="email" class="textbox" name="email" value="lyjbbq@163.com" type="text" />
+<input type="hidden" id="username" name="username" value="" />
+</div>
+<div class="item">
+<label for="password">密码：</label> 
+<input id="password" class="textbox" name="password" value="1986929" type="password" />
+</div>
+<div id="hascode" style ="display:none;" class="item chk">
+<label for="icode">验证码：</label>
+<input id="icode" class="textbox" name="icode" type="text" />
+<input id="isNeedIcode" class="textbox" name="isNeedIcode" type="hidden" value="" />
+</div>
+<div id="codeimg" style="display:none;" class="item chk-img">
+<img alt="验证码" src="http://icode.renren.com/getcode.do?t=openplatform" id="verifyPic" /><a href="javascript:refreshCode();">换一张</a>
+</div>
+<div class="button-box item"><input class="input-button" name="" type="button" onclick="checkForm()" value="登录" /><a href="http://safe.renren.com/findPass.do" target="_blank">忘记密码？</a></div>
+<div class="register"><a href="http://reg.renren.com/xn6205.do?ss=17059&rt=1&g=185779&app_id=185779" target="_blank">没有人人网帐号？立即注册！</a></div>
+</form>
+</div>
+</div>
+</div>
+</body>
+</html>

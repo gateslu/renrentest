@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>head.png</file>
+        <file>head.gif</file>
+        <file>men_tiny.gif</file>
+        <file>facial.gif</file>
+    </qresource>
+</RCC>
