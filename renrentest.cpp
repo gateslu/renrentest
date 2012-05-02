@@ -59,7 +59,7 @@ renrentest::renrentest(const QString &m_sessionkey, QWidget *parent) :
     qDebug() << "m_sessionkey : " << m_sessionkey;
     qDebug()<<"main thread:" <<QThread::currentThreadId();
     on_tabWidget_currentChanged(0);
-    this->setWindowOpacity(0.95);          //设置透明
+//    this->setWindowOpacity(0.95);          //设置透明
 }
 
 renrentest::~renrentest()
